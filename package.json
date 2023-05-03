@@ -1,0 +1,32 @@
+{
+  "name": "eitherwise",
+  "version": "1.0.0",
+  "description": "Eitherwise is a TypeScript library for working with functional programming concepts such as Options and Eithers. It provides a set of utilities and functions for handling errors and unexpected cases in a functional and intuitive way. With Eitherwise, you can write more concise and maintainable code that is easier to reason about and debug.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "start": "rollup -c -w",
+    "dev": "concurrently \"tsc --watch\" \"nodemon ./dist/index.js\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test"
+  },
+  "keywords": [
+    "Functional programming",
+    "Options",
+    "Eithers",
+    "Error handling",
+    "TypeScript",
+    "Utilities",
+    "Debugging"
+  ],
+  "author": "Martin Persson",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.22",
+    "rollup": "^3.21.3",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "typescript": "^5.0.4"
+  }
+}
