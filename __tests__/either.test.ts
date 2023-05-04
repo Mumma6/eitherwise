@@ -12,7 +12,7 @@ import {
   eitherTryCatch,
   Either,
 } from "../src/index"
-import { Some, None } from "../src/option"
+import { Some, None, getOption } from "../src/option"
 
 describe("either", () => {
   const error = "Error"
@@ -101,8 +101,11 @@ describe("either", () => {
       const someOption: Some<number> = { _tag: "Some", value: 42 }
       const noneOption: None = { _tag: "None" }
 
+      const option = getOption(10)
+
       expect(fromOption(() => error, someOption)).toEqual(right(42))
       expect(fromOption(() => error, noneOption)).toEqual(left(error))
+      expect(fromOption(() => error, option)).toEqual(right(10))
     })
   })
 
