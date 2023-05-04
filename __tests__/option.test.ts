@@ -1,4 +1,4 @@
-import { getOption, getOrElse, optionFold, optionMap } from "../src/index"
+import { getOption, getOptionOrElse, optionFold, optionMap } from "../src/index"
 
 describe("options", () => {
   const fn1 = (x: number) => x * 2
@@ -62,17 +62,17 @@ describe("options", () => {
     })
   })
 
-  describe("getOrElse", () => {
+  describe("getOptionOrElse", () => {
     it("should return the value of Some if it exists", () => {
       const option = getOption(42)
-      expect(getOrElse(option, "default")).toBe(42)
+      expect(getOptionOrElse(option, "default")).toBe(42)
     })
 
     it("should return the default value for None", () => {
       const option = getOption(10)
       const mappedOption = optionMap(option, fn1, fn2, fn5)
       expect(mappedOption).toEqual({ _tag: "None" })
-      expect(getOrElse(mappedOption, "default")).toBe("default")
+      expect(getOptionOrElse(mappedOption, "default")).toBe("default")
     })
   })
 
@@ -86,7 +86,7 @@ describe("options", () => {
       expect(optionMap(option, fn1, fn2, fn3, fn4)).toEqual({ _tag: "Some", value: "The number is 10.5" })
     })
 
-    it("should return None if any of the option values is evaluates to null or undefiend", () => {
+    it("should return None if any of the option values evaluates to null or undefiend", () => {
       const option = getOption(10)
       expect(optionMap(option, fn1, fn2, fn5)).toEqual({ _tag: "None" })
     })

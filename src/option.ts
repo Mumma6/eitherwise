@@ -1,15 +1,24 @@
-import { Some, TOption } from "./interfaces"
+import { isNullOrUndefiend } from "./utils"
 
-const some = <A>(x: A): TOption<A> => ({
+export interface Some<A> {
+  readonly _tag: "Some"
+  readonly value: A
+}
+
+export interface None {
+  readonly _tag: "None"
+}
+
+export type TOption<A> = Some<A> | None
+
+export const some = <A>(x: A): TOption<A> => ({
   _tag: "Some",
   value: x,
 })
 
-const none: TOption<never> = {
+export const none: TOption<never> = {
   _tag: "None",
 }
-
-const isNullOrUndefiend = (x: unknown): boolean => x === null || x === undefined
 
 const isSome = <A>(x: TOption<A>): x is Some<A> => x._tag === "Some"
 
@@ -18,7 +27,7 @@ export const getOption = <A>(a: A): TOption<NonNullable<A>> => (isNullOrUndefien
 export const optionFold = <A, B>(oa: TOption<A>, onNone: () => B, onSome: (a: A) => B): B =>
   isSome(oa) ? onSome(oa.value) : onNone()
 
-export const getOrElse = <A, B>(x: TOption<A>, e: B) => (isSome(x) ? x.value : e)
+export const getOptionOrElse = <A, B>(x: TOption<A>, e: B) => (isSome(x) ? x.value : e)
 
 export function optionMap<A, B>(oa: TOption<A>, f: (a: A) => B): TOption<B>
 export function optionMap<A, B, C>(oa: TOption<A>, f: (a: A) => B, g: (b: B) => C): TOption<C>
