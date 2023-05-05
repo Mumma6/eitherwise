@@ -63,7 +63,6 @@ const getValueOption = () => {
 Instead of checking for errors with if statements and throwing exceptions, you can use Either to wrap the result of your operation and handle errors in a more expressive way:
 
 ```javascript
-;/\*_ Either _/
 // Traditional approach
 const divide = (a, b) => {
   if (b === 0) {
