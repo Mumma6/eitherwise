@@ -1,5 +1,5 @@
 import {
-  eitherAsyncChain,
+  eitherAsyncFlatMap,
   eitherAsyncFold,
   eitherAsyncMap,
   eitherAsyncTryCatch,
@@ -25,16 +25,16 @@ describe("eitherAsync", () => {
     })
   })
 
-  describe("eitherAsyncChain", () => {
+  describe("eitherAsyncFlatMap", () => {
     it("should correctly chain a Promise<Either> with an async function", async () => {
       const promiseEither = Promise.resolve(rightAsync(value))
-      const chainedPromiseEither = await eitherAsyncChain(promiseEither, async (v) => rightAsync(v * 2))
+      const chainedPromiseEither = await eitherAsyncFlatMap(promiseEither, async (v) => rightAsync(v * 2))
       expect(chainedPromiseEither).toEqual(await rightAsync(84))
     })
 
     it("should not apply the function on a Left value", async () => {
       const promiseEither = Promise.resolve(leftAsync(error))
-      const chainedPromiseEither = await eitherAsyncChain(promiseEither, async (v) => rightAsync(v * 2))
+      const chainedPromiseEither = await eitherAsyncFlatMap(promiseEither, async (v) => rightAsync(v * 2))
       expect(chainedPromiseEither).toEqual(await leftAsync(error))
     })
   })

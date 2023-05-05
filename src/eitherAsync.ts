@@ -16,7 +16,7 @@ export const eitherAsyncMap = async <E, A, B>(
   return either._tag === "Right" ? right(f(either.right)) : either
 }
 
-export const eitherAsyncChain = async <E, A, B>(
+export const eitherAsyncFlatMap = async <E, A, B>(
   promiseEither: Promise<Either<E, A>>,
   f: (a: A) => Promise<Either<E, B>>
 ): Promise<Either<E, B>> => {
@@ -40,7 +40,7 @@ export const eitherAsyncTryCatch = async <E, A>(
   try {
     const result = await f()
     return right(result)
-  } catch (error_1) {
-    return left(onError(error_1))
+  } catch (error) {
+    return left(onError(error))
   }
 }

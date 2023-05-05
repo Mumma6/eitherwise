@@ -30,7 +30,7 @@ export const isRight = <E, A>(either: Either<E, A>): either is Right<A> => eithe
 export const eitherMap = <E, A, B>(either: Either<E, A>, f: (a: A) => B): Either<E, B> =>
   either._tag === "Right" ? right(f(either.right)) : either
 
-export const eitherChain = <E, A, B>(either: Either<E, A>, f: (a: A) => Either<E, B>): Either<E, B> =>
+export const eitherFlatMap = <E, A, B>(either: Either<E, A>, f: (a: A) => Either<E, B>): Either<E, B> =>
   either._tag === "Right" ? f(either.right) : either
 
 export const eitherFold = <E, A, B>(either: Either<E, A>, leftFn: (e: E) => B, rightFn: (a: A) => B): B =>
@@ -47,7 +47,8 @@ export const fromOption = <E, A>(onNone: () => E, fa: TOption<A>): Either<E, A> 
 
 export const eitherTryCatch = <E, A>(f: () => A, onError: (error: unknown) => E): Either<E, A> => {
   try {
-    return right(f())
+    const result = f()
+    return right(result)
   } catch (error) {
     return left(onError(error))
   }

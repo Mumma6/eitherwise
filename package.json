@@ -1,9 +1,13 @@
 {
   "name": "eitherwise",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Eitherwise is a TypeScript library for working with functional programming concepts such as Options and Eithers. It provides a set of utilities and functions for handling errors and unexpected cases in a functional and intuitive way. With Eitherwise, you can write more concise and maintainable code that is easier to reason about and debug.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mumma6/eitherwise"
+  },
   "scripts": {
     "build": "rollup -c",
     "start": "rollup -c -w",

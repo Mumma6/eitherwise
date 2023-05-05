@@ -4,7 +4,7 @@ import {
   isLeft,
   isRight,
   eitherMap,
-  eitherChain,
+  eitherFlatMap,
   eitherFold,
   getEitherOrElse,
   getEither,
@@ -85,14 +85,14 @@ describe("either", () => {
     })
   })
 
-  describe("eitherChain", () => {
+  describe("eitherFlatMap", () => {
     it("should correctly chain functions over the Either values", () => {
       const either = right(value)
 
       const chainedFn = (x: number) => (x % 2 === 0 ? right(x / 2) : left("Odd"))
 
-      expect(eitherChain(either, chainedFn)).toEqual(right(21))
-      expect(eitherChain(right(41), chainedFn)).toEqual(left("Odd"))
+      expect(eitherFlatMap(either, chainedFn)).toEqual(right(21))
+      expect(eitherFlatMap(right(41), chainedFn)).toEqual(left("Odd"))
     })
   })
 

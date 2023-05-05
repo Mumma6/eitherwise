@@ -24,7 +24,7 @@ const isSome = <A>(x: TOption<A>): x is Some<A> => x._tag === "Some"
 
 export const getOption = <A>(a: A): TOption<NonNullable<A>> => (isNullOrUndefiend(a) ? none : some(a as NonNullable<A>))
 
-export const optionFold = <A, B>(oa: TOption<A>, onNone: () => B, onSome: (a: A) => B): B =>
+export const optionFold = <A, B>(oa: TOption<A>, onNone: () => B, onSome: (a: A) => A | B): A | B =>
   isSome(oa) ? onSome(oa.value) : onNone()
 
 export const getOptionOrElse = <A, B>(x: TOption<A>, e: B) => (isSome(x) ? x.value : e)
