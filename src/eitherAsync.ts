@@ -1,4 +1,4 @@
-import { Either, left, right } from "./either"
+import { Either, isRight, left, right } from "./either"
 
 export const leftAsync = <E, A = never>(error: E): Promise<Either<E, A>> => {
   return Promise.resolve(left(error))
@@ -13,7 +13,7 @@ export const eitherAsyncMap = async <E, A, B>(
   f: (a: A) => B
 ): Promise<Either<E, B>> => {
   const either = await promiseEither
-  return either._tag === "Right" ? right(f(either.right)) : either
+  return isRight(either) ? right(f(either.right)) : either
 }
 
 export const eitherAsyncFlatMap = async <E, A, B>(
@@ -21,7 +21,7 @@ export const eitherAsyncFlatMap = async <E, A, B>(
   f: (a: A) => Promise<Either<E, B>>
 ): Promise<Either<E, B>> => {
   const either = await promiseEither
-  return await (either._tag === "Right" ? f(either.right) : Promise.resolve(either))
+  return await (isRight(either) ? f(either.right) : Promise.resolve(either))
 }
 
 export const eitherAsyncFold = async <E, A, B1, B2>(
@@ -30,7 +30,7 @@ export const eitherAsyncFold = async <E, A, B1, B2>(
   rightFn: (a: A) => B2
 ): Promise<B1 | B2> => {
   const either = await promiseEither
-  return either._tag === "Right" ? rightFn(either.right) : leftFn(either.left)
+  return isRight(either) ? rightFn(either.right) : leftFn(either.left)
 }
 
 export const eitherAsyncTryCatch = async <E, A>(

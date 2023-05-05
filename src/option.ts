@@ -20,7 +20,7 @@ export const none: TOption<never> = {
   _tag: "None",
 }
 
-const isSome = <A>(x: TOption<A>): x is Some<A> => x._tag === "Some"
+export const isSome = <A>(x: TOption<A>): x is Some<A> => x._tag === "Some"
 
 export const getOption = <A>(a: A): TOption<NonNullable<A>> => (isNullOrUndefiend(a) ? none : some(a as NonNullable<A>))
 
