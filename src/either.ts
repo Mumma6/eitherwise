@@ -27,11 +27,121 @@ export const isLeft = <E, A>(either: Either<E, A>): either is Left<E> => either.
 
 export const isRight = <E, A>(either: Either<E, A>): either is Right<A> => either._tag === "Right"
 
-export const eitherMap = <E, A, B>(either: Either<E, A>, f: (a: A) => B): Either<E, B> =>
-  isRight(either) ? right(f(either.right)) : either
+export function eitherMap<E, A, B>(either: Either<E, A>, f: (a: A) => B): Either<E, B>
+export function eitherMap<E, A, B, C>(either: Either<E, A>, f: (a: A) => B, g: (b: B) => C): Either<E, C>
+export function eitherMap<E, A, B, C, D>(either: Either<E, A>, f: (a: A) => B, g: (b: B) => C, h: (c: C) => D): Either<E, D>
+export function eitherMap<E, A, B, C, D, F>(
+  either: Either<E, A>,
+  f: (a: A) => B,
+  g: (b: B) => C,
+  h: (c: C) => D,
+  i: (d: D) => F
+): Either<E, F>
+export function eitherMap<E, A, B, C, D, F, G>(
+  either: Either<E, A>,
+  f: (a: A) => B,
+  g: (b: B) => C,
+  h: (c: C) => D,
+  i: (d: D) => F,
+  j: (e: F) => G
+): Either<E, G>
+export function eitherMap<E, A, B, C, D, F, G, H>(
+  either: Either<E, A>,
+  f: (a: A) => B,
+  g: (b: B) => C,
+  h: (c: C) => D,
+  i: (d: D) => F,
+  j: (e: F) => G,
+  k: (f: G) => H
+): Either<E, H>
+export function eitherMap<E, A, B, C, D, F, G, H, I>(
+  either: Either<E, A>,
+  f: (a: A) => B,
+  g: (b: B) => C,
+  h: (c: C) => D,
+  i: (d: D) => F,
+  j: (e: F) => G,
+  k: (f: G) => H,
+  l: (g: H) => I
+): Either<E, I>
+export function eitherMap<E, A, B, C, D, F, G, H, I, J>(
+  either: Either<E, A>,
+  f: (a: A) => B,
+  g: (b: B) => C,
+  h: (c: C) => D,
+  i: (d: D) => F,
+  j: (e: F) => G,
+  k: (f: G) => H,
+  l: (g: H) => I,
+  m: (h: I) => J
+): Either<E, J>
+export function eitherMap(either: Either<unknown, unknown>, ...fns: ((a: unknown) => unknown)[]): Either<unknown, unknown> {
+  return fns.reduce((acc: Either<unknown, unknown>, fn) => {
+    if (isRight(acc)) {
+      const result = fn(acc.right)
+      return right(result)
+    }
+    return acc
+  }, either)
+}
 
-export const eitherFlatMap = <E, A, B>(either: Either<E, A>, f: (a: A) => Either<E, B>): Either<E, B> =>
-  isRight(either) ? f(either.right) : either
+export function eitherFlatMap<E, A, B>(either: Either<E, A>, f: (a: A) => Either<E, B>): Either<E, B>
+export function eitherFlatMap<E, A, B, C>(
+  either: Either<E, A>,
+  f: (a: A) => Either<E, B>,
+  g: (b: B) => Either<E, C>
+): Either<E, C>
+export function eitherFlatMap<E, A, B, C, D>(
+  either: Either<E, A>,
+  f: (a: A) => Either<E, B>,
+  g: (b: B) => Either<E, C>,
+  h: (c: C) => Either<E, D>
+): Either<E, D>
+export function eitherFlatMap<E, A, B, C, D, F>(
+  either: Either<E, A>,
+  f: (a: A) => Either<E, B>,
+  g: (b: B) => Either<E, C>,
+  h: (c: C) => Either<E, D>,
+  i: (d: D) => Either<E, F>
+): Either<E, F>
+export function eitherFlatMap<E, A, B, C, D, F, G>(
+  either: Either<E, A>,
+  f: (a: A) => Either<E, B>,
+  g: (b: B) => Either<E, C>,
+  h: (c: C) => Either<E, D>,
+  i: (d: D) => Either<E, F>,
+  j: (e: F) => Either<E, G>
+): Either<E, G>
+export function eitherFlatMap<E, A, B, C, D, F, G, H>(
+  either: Either<E, A>,
+  f: (a: A) => Either<E, B>,
+  g: (b: B) => Either<E, C>,
+  h: (c: C) => Either<E, D>,
+  i: (d: D) => Either<E, F>,
+  j: (e: F) => Either<E, G>,
+  k: (f: G) => Either<E, H>
+): Either<E, H>
+export function eitherFlatMap<E, A, B, C, D, F, G, H, I>(
+  either: Either<E, A>,
+  f: (a: A) => Either<E, B>,
+  g: (b: B) => Either<E, C>,
+  h: (c: C) => Either<E, D>,
+  i: (d: D) => Either<E, F>,
+  j: (e: F) => Either<E, G>,
+  k: (f: G) => Either<E, H>,
+  l: (g: H) => Either<E, I>
+): Either<E, I>
+export function eitherFlatMap(
+  either: Either<unknown, unknown>,
+  ...fns: ((a: unknown) => Either<unknown, unknown>)[]
+): Either<unknown, unknown> {
+  return fns.reduce((acc: Either<unknown, unknown>, fn) => {
+    if (isRight(acc)) {
+      return fn(acc.right)
+    }
+    return acc
+  }, either)
+}
 
 export const eitherFold = <E, A, B>(either: Either<E, A>, leftFn: (e: E) => B, rightFn: (a: A) => B): B =>
   isRight(either) ? rightFn(either.right) : leftFn(either.left)

@@ -21,6 +21,8 @@ describe("either", () => {
 
   const fn1 = (x: number) => x * 2
   const fn2 = (x: number) => x + 1
+  const fn3 = (x: number) => x + 10
+  const fn4 = (x: number) => x - 1
 
   describe("getEither", () => {
     it("should return Left for null or undefined values", () => {
@@ -74,14 +76,24 @@ describe("either", () => {
   describe("eitherMap", () => {
     it("should correctly map functions over the Either values", () => {
       const either = right(value)
+      const either2 = getEither("no value", value)
 
       expect(eitherMap(either, fn1)).toEqual(right(84))
       expect(eitherMap(eitherMap(either, fn1), fn2)).toEqual(right(85))
+      expect(eitherMap(either, fn1, fn2, fn3, fn4)).toEqual(right(94))
+
+      expect(eitherMap(either2, fn1)).toEqual(right(84))
+      expect(eitherMap(eitherMap(either2, fn1), fn2)).toEqual(right(85))
+      expect(eitherMap(either2, fn1, fn2, fn3, fn4)).toEqual(right(94))
     })
 
     it("should return Left if the Either is Left", () => {
       const either = left(error)
       expect(eitherMap(either, fn1)).toEqual(left(error))
+
+      expect(eitherMap(either, fn1)).toEqual(left(error))
+      expect(eitherMap(eitherMap(either, fn1), fn2)).toEqual(left(error))
+      expect(eitherMap(either, fn1, fn2, fn3, fn4)).toEqual(left(error))
     })
   })
 
@@ -92,6 +104,7 @@ describe("either", () => {
       const chainedFn = (x: number) => (x % 2 === 0 ? right(x / 2) : left("Odd"))
 
       expect(eitherFlatMap(either, chainedFn)).toEqual(right(21))
+      expect(eitherFlatMap(either, chainedFn, chainedFn)).toEqual(left("Odd"))
       expect(eitherFlatMap(right(41), chainedFn)).toEqual(left("Odd"))
     })
   })

@@ -3,6 +3,7 @@ import {
   eitherAsyncFold,
   eitherAsyncMap,
   eitherAsyncTryCatch,
+  getEitherAsync,
   leftAsync,
   rightAsync,
 } from "../src/eitherAsync"
@@ -11,16 +12,40 @@ describe("eitherAsync", () => {
   const error = "An error occurred"
   const value = 42
 
+  const fn1 = (x: number) => x * 2
+  const fn2 = (x: number) => x + 1
+  const fn3 = (x: number) => x + 10
+
+  describe("getEitherAsync", () => {
+    it("should get Eithers", async () => {
+      const eitherAsync = await getEitherAsync("Error message", null)
+      const eitherAsync2 = await getEitherAsync("Error message", 10)
+
+      expect(eitherAsync).toEqual(await leftAsync("Error message"))
+      expect(eitherAsync2).toEqual(await rightAsync(10))
+    })
+
+    it("getEitherAsync should return a instance of a Promise", async () => {
+      const eitherAsync = getEitherAsync("Error message", null)
+      const eitherAsync2 = getEitherAsync("Error message", 10)
+      expect(eitherAsync).toBeInstanceOf(Promise)
+      expect(eitherAsync2).toBeInstanceOf(Promise)
+    })
+  })
+
   describe("eitherAsyncMap", () => {
     it("should correctly map a function over a Promise<Either>", async () => {
       const promiseEither = Promise.resolve(rightAsync(value))
-      const mappedPromiseEither = await eitherAsyncMap(promiseEither, (v) => v * 2)
+      const mappedPromiseEither = await eitherAsyncMap(promiseEither, fn1)
       expect(mappedPromiseEither).toEqual(await rightAsync(84))
+
+      const mappedPromiseEither2 = await eitherAsyncMap(promiseEither, fn1, fn2, fn3)
+      expect(mappedPromiseEither2).toEqual(await rightAsync(95))
     })
 
     it("should not apply the function on a Left value", async () => {
       const promiseEither = Promise.resolve(leftAsync(error))
-      const mappedPromiseEither = await eitherAsyncMap(promiseEither, (v) => v * 2)
+      const mappedPromiseEither = await eitherAsyncMap(promiseEither, fn1)
       expect(mappedPromiseEither).toEqual(await leftAsync(error))
     })
   })
@@ -30,6 +55,15 @@ describe("eitherAsync", () => {
       const promiseEither = Promise.resolve(rightAsync(value))
       const chainedPromiseEither = await eitherAsyncFlatMap(promiseEither, async (v) => rightAsync(v * 2))
       expect(chainedPromiseEither).toEqual(await rightAsync(84))
+
+      const chainedPromiseEither2 = await eitherAsyncFlatMap(
+        promiseEither,
+        async (v) => rightAsync(v * 2),
+        async (v) => rightAsync(v + 1),
+        async (v) => rightAsync(v + 2)
+      )
+      expect(chainedPromiseEither).toEqual(await rightAsync(84))
+      expect(chainedPromiseEither2).toEqual(await rightAsync(87))
     })
 
     it("should not apply the function on a Left value", async () => {
