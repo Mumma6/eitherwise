@@ -2,3 +2,4 @@ node_modules
 dist
 todos
 *.txt
+*node_modules

@@ -32,11 +32,12 @@ npm install eitherwise
 
 ## Quick guide
 
-Using eitherwise allows you to write shorter and more expressive code compared to traditional approaches that use if statements to check for null or undefined values. Here are three examples:
+This quick guide demonstrates how using the eitherwise library allows you to write shorter and more expressive code compared to traditional approaches that use if statements to check for null or undefined values.
 
 ### Option guide
 
 Instead of checking for null or undefined values with if statements, you can use Option to wrap your value and handle the absence of a value in a more expressive way:
+Option is a data type that represents the presence or absence of a value. It can be used to handle optional values and prevent runtime errors caused by null or undefined. This library comes with utility functions for working with optional values and safely chaining operations that might return an optional value.
 
 ```javascript
 /** Option*/
@@ -64,7 +65,7 @@ Instead of checking for errors with if statements and throwing exceptions, you c
 
 ```javascript
 // Traditional approach
-const divide = (a, b) => {
+const divide = (a: number, b: number) => {
   if (b === 0) {
     throw new Error("Cannot divide by zero")
   } else {
@@ -73,7 +74,7 @@ const divide = (a, b) => {
 }
 
 // With Either
-const divideEither = (a, b) => {
+const divideEither = (a: number, b: number) => {
   return b === 0 ? left("Cannot divide by zero") : right(a / b)
 }
 
@@ -257,7 +258,7 @@ import {
 } from "eitherwise"
 
 // Example of an operation that might fail
-const divide = (a, b) => (b === 0 ? left("Cannot divide by zero") : right(a / b))
+const divide = (a: number, b: number) => (b === 0 ? left("Cannot divide by zero") : right(a / b))
 
 // Check if an Either instance is Left or Right
 const eitherResult = divide(10, 2)
@@ -293,6 +294,13 @@ console.log(eitherFromNullable) // // {_tag: 'Left', left: 'Value is null or und
 const optionValue = getOption("Hello, world!")
 const eitherFromOption = fromOption(() => "Value is None", optionValue)
 conole.log(eitherFromOption) // { _tag: "Right", right: "Hello World! }
+
+const unsafeDivide = (x: number, y: number): number => {
+  if (y === 0) {
+    throw new Error("Cannot divide by zero")
+  }
+  return x / y
+}
 
 // Handling exceptions with eitherTryCatch
 const divideEither = (x: number, y: number): Either<string, number> =>

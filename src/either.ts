@@ -1,4 +1,4 @@
-import { TOption, isSome } from "./option"
+import { Option, isSome } from "./option"
 import { isNullOrUndefiend } from "./utils"
 
 interface Left<E> {
@@ -152,7 +152,7 @@ export const getEitherOrElse = <E, A, B>(either: Either<E, A>, f: (e: E) => B): 
 export const getEither = <E, A>(e: E, a: A | null | undefined): Either<E, NonNullable<A>> =>
   !isNullOrUndefiend(a) ? right(a as NonNullable<A>) : left(e)
 
-export const fromOption = <E, A>(onNone: () => E, fa: TOption<A>): Either<E, A> =>
+export const fromOption = <E, A>(onNone: () => E, fa: Option<A>): Either<E, A> =>
   isSome(fa) ? right(fa.value) : left(onNone())
 
 export const eitherTryCatch = <E, A>(f: () => A, onError: (error: unknown) => E): Either<E, A> => {
