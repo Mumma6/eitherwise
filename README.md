@@ -9,6 +9,7 @@ If you are looking for more functionality you probably want to look at https://g
 ## Table of Contents
 
 - [Installation](#installation)
+- [Examples](#examples)
 - [Quick guide](#Quick-guide)
   - [Option](#option-guide)
   - [Either](#either-guide)
@@ -29,6 +30,12 @@ To install the package, run the following command:
 ```javascript
 npm install eitherwise
 ```
+
+## Example
+
+A example todo app showing how to use eitherwise to fetch and handle data from an API
+
+https://github.com/Mumma6/eitherwise/tree/main/examples/todo
 
 ## Quick guide
 
