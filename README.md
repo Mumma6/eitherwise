@@ -31,7 +31,7 @@ To install the package, run the following command:
 npm install eitherwise
 ```
 
-## Example
+## Examples
 
 A example todo app showing how to use eitherwise to fetch and handle data from an API
 
